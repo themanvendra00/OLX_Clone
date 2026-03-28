@@ -1,12 +1,65 @@
-function viewmore(){
-  window.location.href = "phones.html"
+function viewmore() {
+  window.location.href = "phones.html";
 }
+
+function createHomepageCard(item) {
+  const card = document.createElement("article");
+  card.className = "product-card";
+
+  const media = document.createElement("div");
+  media.className = "product-card__media";
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "product-card__favorite head_button";
+  button.setAttribute("aria-label", "Save listing");
+  button.addEventListener("click", (e) => {
+    e.stopPropagation();
+    button.classList.toggle("is-favorited");
+  });
+
+  const iTag = document.createElement("i");
+  iTag.classList.add("fa-solid", "fa-heart");
+  button.append(iTag);
+
+  const imge = document.createElement("img");
+  imge.src = item?.image_src || "";
+  imge.alt = "";
+  imge.addEventListener("click", () => {
+    function_ls(item);
+    document.location.href = "productdetails.html";
+  });
+
+  media.append(button, imge);
+
+  const body = document.createElement("div");
+  body.className = "product-card__body";
+
+  const price = document.createElement("h3");
+  price.className = "product-card__price";
+  price.textContent = "₹ " + item.price;
+
+  const title = document.createElement("p");
+  title.className = "product-card__title";
+  title.textContent = item.title;
+
+  const location = document.createElement("p");
+  location.className = "product-card__location";
+  location.textContent = item.location;
+
+  const date = document.createElement("p");
+  date.className = "product-card__date";
+  date.textContent = item.date;
+
+  body.append(price, title, location, date);
+  card.append(media, body);
+  return card;
+}
+
 // * ------------------------>> FETCH DATA  <<-------------------------------------
-let url = "https://636a74ebb10125b78fdbef78.mockapi.io/homepage";
 async function fetchData() {
   try {
-    let res = await (await fetch(url)).json();
-    // console.log(res);
+    let res = await getHomepageProducts();
     displayData(res);
   } catch (error) {
     alert(error);
@@ -18,120 +71,30 @@ fetchData();
 let scnd_div = document.querySelector("#homepage_scnd_child");
 function displayData(data) {
   scnd_div.innerHTML = "";
-  // data.forEach(element => {
-  for (let i = 0; i < 21; i++) {
-    let iTag = document.createElement("i");
-    iTag.classList.add("fa-solid");
-    iTag.classList.add("fa-heart");
-    let button = document.createElement("button");
-    button.style.color = "grey";
-    button.addEventListener("click", (event) => {
-      if (button.style.color == "grey") {
-        button.style.color = "black";
-      } else {
-        button.style.color = "grey";
-      }
-    });
+  const initialCount = Math.min(21, data.length);
+  for (let i = 0; i < initialCount; i++) {
+    scnd_div.append(createHomepageCard(data[i]));
+  }
 
-    
-    let div = document.createElement("div");
-    let imge = document.createElement("img");
-    imge.src = data[i].image_src;
-    imge.addEventListener("click",(event)=>{
-        function_ls(data[i]);
-        document.location.href="../productdetails.html"
-
-    });
-
-
-    let price = document.createElement("h3");
-    price.innerText = "₹ " + data[i].price;
-    
-    let div2 = document.createElement("div");
-    let title = document.createElement("p");
-    title.innerText = data[i].title.substring(0, 27) + "...";
-    title.setAttribute("class", "first_p");
-    
-    let location = document.createElement("p");
-    location.innerText = data[i].location;
-    
-    let date = document.createElement("p");
-    date.innerText = data[i].date;
-    
-
-
-
-    button.append(iTag);
-    div2.append(imge);
-    div.append(button, div2, price, title, location, date);
-    scnd_div.append(div);
-  };
-
-  let load_more = document.querySelector("#homepage_load_more");
-  load_more.addEventListener("click", (load_more_DATA) => {
-    for (let i = 9; i < data.length; i++) {
-      let iTag = document.createElement("i");
-      iTag.classList.add("fa-solid");
-      iTag.classList.add("fa-heart");
-      let button = document.createElement("button");
-      button.style.color = "grey";
-      button.addEventListener("click", (event) => {
-        if (button.style.color == "grey") {
-          button.style.color = "black";
-        } else {
-          button.style.color = "grey";
-        }
-      });
-
-      button.append(iTag);
-
-      let div = document.createElement("div");
-      let imge = document.createElement("img");
-      imge.src = data[i].image_src;
-      imge.addEventListener("click",(event)=>{
-        function_ls(data[i]);
-
-    });
-
-      let price = document.createElement("h3");
-      price.innerText = "₹ " + data[i].price;
-
-      let div2 = document.createElement("div");
-      let title = document.createElement("p");
-      title.innerText = data[i].title.substring(0, 27) + "...";
-      title.setAttribute("class", "first_p");
-
-      let location = document.createElement("p");
-      location.innerText = data[i].location;
-
-      let date = document.createElement("p");
-      date.innerText = data[i].date;
-
-      div2.append(imge);
-      div.append(button, div2, price, title, location, date);
-      scnd_div.append(div);
+  const load_more = document.querySelector("#homepage_load_more");
+  load_more.onclick = () => {
+    for (let i = initialCount; i < data.length; i++) {
+      scnd_div.append(createHomepageCard(data[i]));
     }
-  });
-};
+    load_more.style.display = "none";
+  };
+  load_more.style.display = data.length > initialCount ? "inline-block" : "none";
+}
 
 let headButton = document.querySelectorAll(".head_button");
-//console.log(headButton);
 for (let i = 0; i < headButton.length; i++) {
-  headButton[i].style.color = "grey";
   headButton[i].addEventListener("click", (event) => {
-    if (headButton[i].style.color == "grey") {
-      headButton[i].style.color = "black";
-    } else {
-      headButton[i].style.color = "grey";
-    }
+    event.stopPropagation();
+    headButton[i].classList.toggle("is-favorited");
   });
-};
+}
 
 // * -------------------------->> LS <<---------------------------------
-function function_ls(obj){
-  // let productData = [];
-  // productData.push(obj);
-  localStorage.setItem("local_Key",JSON.stringify([obj]));
-};
-
-
+function function_ls(obj) {
+  localStorage.setItem("local_Key", JSON.stringify([obj]));
+}

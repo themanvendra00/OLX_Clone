@@ -244,6 +244,7 @@
 
 </html>
 
+<script src="./scripts/local-data.js"></script>
 <script>
     let usercard = document.getElementById("userscard")
     let bikescard = document.getElementById("bikescard")
@@ -285,11 +286,6 @@
         displayapartments.style.display = "block"
     })
 
-    let mobileurl = "https://636a74ebb10125b78fdbef78.mockapi.io/mobiles"
-    let bikesurl = "https://636a74ebb10125b78fdbef78.mockapi.io/bikes"
-    let apartmenturl = "https://636a74ebb10125b78fdbef78.mockapi.io/electronics"
-    let usersurl = "https://636a5574c07d8f936d9a9502.mockapi.io/users"
-
     fetchMobile()
     fetchbikes()
     fetchapartments()
@@ -297,15 +293,8 @@
 
     async function fetchusers(){
         try{
-            let response = await fetch(usersurl);
-           
-            if(response.ok==true){
-                // let total_users_count= response.headers.get("x-total-count");
-                // console.log(total_users_count)
-                let users = await response.json();
-                displayusersData(users)
-            }
-            
+            let users = await getUsersList();
+            displayusersData(users)
         }
         catch(err){
             console.log(err)
@@ -337,17 +326,8 @@
 
     async function deleteusers(id){
         try {
-            let response = await fetch(`${usersurl}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-
-            if (response.ok == true) {
-                let mobile = await response.json();
-                fetchusers()
-            }
+            deleteUserById(id)
+            fetchusers()
         }
         catch (err) {
             alert(err)
@@ -357,11 +337,7 @@
 
     async function fetchapartments(){
         try{
-            let response = await fetch(apartmenturl)
-            // let total = response.headers.get('X-Total-Count');
-            // console.log(total)
-            let apartments = await response.json();
-
+            let apartments = await getApartmentsList();
             displayApartmentsData(apartments)
         }
         catch(err){
@@ -396,17 +372,8 @@
 
     async function deleteapartment(id){
         try {
-            let response = await fetch(`${apartmenturl}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-
-            if (response.ok == true) {
-                let mobile = await response.json();
-                fetchapartments()
-            }
+            deleteApartmentById(id)
+            fetchapartments()
         }
         catch (err) {
             alert(err)
@@ -415,9 +382,7 @@
 
     async function fetchbikes() {
         try {
-            let response = await fetch(bikesurl);
-            let mobiles = await response.json();
-
+            let mobiles = await getBikesList();
             displayBikesData(mobiles)
         }
         catch (err) {
@@ -452,17 +417,8 @@
 
     async function deletebike(id){
         try {
-            let response = await fetch(`${bikesurl}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-
-            if (response.ok == true) {
-                let mobile = await response.json();
-                fetchbikes()
-            }
+            deleteBikeById(id)
+            fetchbikes()
         }
         catch (err) {
             alert(err)
@@ -471,9 +427,7 @@
 
     async function fetchMobile() {
         try {
-            let response = await fetch(mobileurl);
-            let mobiles = await response.json();
-
+            let mobiles = await getMobilesList();
             displayMobilesData(mobiles)
         }
         catch (err) {
@@ -507,17 +461,8 @@
 
     async function deletemobiles(id) {
         try {
-            let response = await fetch(`${mobileurl}/${id}`, {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            })
-
-            if (response.ok == true) {
-                let mobile = await response.json();
-                fetchMobile()
-            }
+            deleteMobileById(id)
+            fetchMobile()
         }
         catch (err) {
             alert(err)

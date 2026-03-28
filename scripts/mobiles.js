@@ -1,5 +1,3 @@
-let MobilesURL = "https://636a74ebb10125b78fdbef78.mockapi.io/mobiles";
-
 let postBtn = document.getElementById("post_btn")
 
 
@@ -63,16 +61,7 @@ postBtn.addEventListener("click",async function(){
     };
     console.log(apartsObj)
     
-    let post_request = await fetch(MobilesURL,{
-        method : "POST",
-        headers : {
-            "Content-Type": "application/json"
-        },
-        body : JSON.stringify(apartsObj)
-    })
-
-    if(post_request.ok){
-        alert("Your Ad is live now!")
-    }
+    addMobileAd(apartsObj);
+    alert("Your Ad is live now!");
 })
 

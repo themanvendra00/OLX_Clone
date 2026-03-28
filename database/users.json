@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "Demo User",
+      "mobile": "9876543210",
+      "email": "demo@test.com",
+      "avatar": "https://i.pravatar.cc/150?img=12",
+      "password": "Test@1234",
+      "status": "IsNotActive"
+    },
+    {
+      "id": "2",
+      "username": "Admin Sample",
+      "mobile": "9123456789",
+      "email": "admin@sample.com",
+      "avatar": "https://i.pravatar.cc/150?img=33",
+      "password": "Admin@1234",
+      "status": "IsNotActive"
+    }
+  ]
+}

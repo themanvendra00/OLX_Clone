@@ -3,7 +3,7 @@
 
 
 
-// let url = "https://636a74ebb10125b78fdbef78.mockapi.io/mobiles"
+// Listing data: database/mobiles.json (see scripts/local-data.js)
 
 // let cat = localStorage.getItem('clickedCat') || 'Vitamins & Supplements'
 // document.getElementById('cat_heading').innerText = cat

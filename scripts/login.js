@@ -7,8 +7,8 @@ let loginbtn=document.getElementById('submit');
 loginbtn.addEventListener("click",async function(){
     let email=document.getElementById('email').value;
      let password=document.getElementById('password').value;
-    let response=await fetch(`https://636a5574c07d8f936d9a9502.mockapi.io/users?email=${email}`);
-    let data=await response.json();
+    let allUsers = await getUsersList();
+    let data = allUsers.filter(function (u) { return u.email === email; });
       checkdata(data,email)
       console.log(details)
       if(details==null){

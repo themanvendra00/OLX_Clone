@@ -25,32 +25,19 @@ class User{
       async signUp(n,e,p,m,a,s){
           let isValidated=this.validateUS(n)&&this.validatePassword(p);
           if(isValidated){
-            this.name=n;
-            this.email=e;
-            this.password=p;
-            this.mobile=m;
-            this.avatar=a;
-            this.status=s;
-            let res=await fetch('https://636a5574c07d8f936d9a9502.mockapi.io/users');
-            let userdata=await res.json();
-            let result=false;
-            userdata.forEach((el)=>{
-          if(el.email==e){
-             result=true;
-             return
-           }
-        })
+            let userdata = await getUsersList();
+            let result = userdata.some(function (el) { return el.email == e; });
             if(result==false){
-              let response=await fetch('https://636a5574c07d8f936d9a9502.mockapi.io/users',{
-              method:'POST',
-              body:JSON.stringify(this),
-              headers:{
-                'Content-type':'application/json'
-              }
-            })
-            let data=await response.json();
-            console.log(data);
-            window.location.href="./login.html";
+              addUserLocal({
+                id: "local-" + Date.now(),
+                username: n,
+                email: e,
+                password: p,
+                mobile: m,
+                avatar: a || "",
+                status: s
+              });
+              window.location.href="./login.html";
             }else{
               alert('Email already exists')
             }

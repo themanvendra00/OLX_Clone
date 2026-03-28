@@ -1,5 +1,3 @@
-let ApartmetsURL = "https://636a74ebb10125b78fdbef78.mockapi.io/electronics";
-
 let postBtn = document.getElementById("post_btn")
 
 
@@ -33,16 +31,7 @@ postBtn.addEventListener("click",async function(){
         date : today
     };
     
-    let post_request = await fetch(ApartmetsURL,{
-        method : "POST",
-        headers : {
-            "Content-Type": "application/json"
-        },
-        body : JSON.stringify(apartsObj)
-    })
-
-    if(post_request.ok){
-        alert("Your Ad is live now!")
-    }
+    addApartmentAd(apartsObj);
+    alert("Your Ad is live now!");
 })
 
